@@ -60,7 +60,7 @@ END;
 $$ language 'plpgsql';
 
 -- Create trigger for posts table
-CREATE TRIGGER update_posts_updated_at BEFORE UPDATE ON posts
+CREATE OR REPLACE TRIGGER update_posts_updated_at BEFORE UPDATE ON posts
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Down Migration

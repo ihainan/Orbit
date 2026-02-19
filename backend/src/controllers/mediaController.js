@@ -30,7 +30,9 @@ class MediaController {
       let thumbnailPath = null;
       if (mediaType === 'image') {
         console.log('Generating thumbnail for image...');
-        const uploadDir = path.join(__dirname, '../../uploads');
+        const uploadDir = process.env.UPLOAD_DIR
+          ? path.resolve(process.env.UPLOAD_DIR)
+          : path.join(__dirname, '../../uploads');
         thumbnailPath = await ImageProcessor.generateThumbnail(file.path, uploadDir);
         console.log('Thumbnail generated:', thumbnailPath);
       }
@@ -69,11 +71,14 @@ class MediaController {
 
       // Delete file from filesystem if it's not external
       if (!media.is_external) {
-        const filePath = path.join(__dirname, '../../', media.file_url);
+        const uploadBase = process.env.UPLOAD_DIR
+          ? path.resolve(process.env.UPLOAD_DIR, '..')
+          : path.join(__dirname, '../../');
+        const filePath = path.join(uploadBase, media.file_url);
         await ImageProcessor.deleteFile(filePath);
 
         if (media.thumbnail_url) {
-          const thumbnailPath = path.join(__dirname, '../../', media.thumbnail_url);
+          const thumbnailPath = path.join(uploadBase, media.thumbnail_url);
           await ImageProcessor.deleteFile(thumbnailPath);
         }
       }

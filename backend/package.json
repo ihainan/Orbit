@@ -7,8 +7,8 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "npm run migrate && nodemon src/app.js",
-    "migrate": "node-pg-migrate up",
-    "migrate:create": "node-pg-migrate create --migration-file-language sql",
+    "migrate": "node migrate.js",
+    "migrate:create": "node-pg-migrate create --migration-file-language sql --migrations-dir migrations",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["timeline", "personal", "blog", "orbitals", "memories"],
@@ -25,9 +25,5 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
-  },
-  "node-pg-migrate": {
-    "migrations-dir": "migrations",
-    "database-url-var": "DATABASE_URL"
   }
 }

@@ -35,7 +35,6 @@ services:
       UPLOAD_DIR: /app/uploads
       MAX_FILE_SIZE: 52428800
       AMAP_WEB_SERVICE_KEY: ${AMAP_WEB_SERVICE_KEY}
-      DATABASE_URL: postgresql://${DB_USER:-orbitals}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-orbitals_db}
       DEFAULT_USERNAME: ${DEFAULT_USERNAME}
       DEFAULT_EMAIL: ${DEFAULT_EMAIL}
     command: sh -c "npm run migrate && npm start"

@@ -7,7 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Ensure upload directories exist
-const uploadDir = path.join(__dirname, '../../uploads');
+const uploadDir = process.env.UPLOAD_DIR
+  ? path.resolve(process.env.UPLOAD_DIR)
+  : path.join(__dirname, '../../uploads');
 const dirs = ['images', 'videos', 'audios', 'avatars', 'thumbnails'];
 
 dirs.forEach(dir => {
