@@ -15,6 +15,7 @@ import errorHandler from './middleware/errorHandler.js';
 
 // Import database to test connection
 import pool from './config/database.js';
+import User from './models/User.js';
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 37000;
+const PORT = process.env.PORT || 51001;
 
 // Middleware
 app.use(cors());
@@ -52,9 +53,17 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Orbitals backend server is running on 0.0.0.0:${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/health`);
+async function start() {
+  await User.ensureDefault();
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Orbitals backend server is running on 0.0.0.0:${PORT}`);
+    console.log(`Health check: http://localhost:${PORT}/health`);
+  });
+}
+
+start().catch((err) => {
+  console.error('Failed to start server:', err.message);
+  process.exit(1);
 });
 
 // Handle graceful shutdown

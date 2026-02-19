@@ -1,7 +1,8 @@
+name: orbitals-prod
+
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: orbitals_postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${DB_USER:-orbitals}
@@ -22,7 +23,6 @@ services:
     build:
       context: ../../backend
       dockerfile: Dockerfile
-    container_name: orbitals_backend
     restart: unless-stopped
     environment:
       DB_HOST: postgres
@@ -30,12 +30,14 @@ services:
       DB_USER: ${DB_USER:-orbitals}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME:-orbitals_db}
-      PORT: 37000
+      PORT: 51001
       NODE_ENV: production
       UPLOAD_DIR: /app/uploads
       MAX_FILE_SIZE: 52428800
       AMAP_WEB_SERVICE_KEY: ${AMAP_WEB_SERVICE_KEY}
       DATABASE_URL: postgresql://${DB_USER:-orbitals}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-orbitals_db}
+      DEFAULT_USERNAME: ${DEFAULT_USERNAME}
+      DEFAULT_EMAIL: ${DEFAULT_EMAIL}
     command: sh -c "npm run migrate && npm start"
     volumes:
       - ${UPLOADS_DIR:-./data/uploads}:/app/uploads
@@ -49,7 +51,6 @@ services:
     build:
       context: ../../frontend
       dockerfile: Dockerfile
-    container_name: orbitals_frontend
     restart: unless-stopped
     ports:
       - "${HTTP_PORT:-80}:80"

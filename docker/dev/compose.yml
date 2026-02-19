@@ -1,7 +1,8 @@
+name: orbitals-dev
+
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: orbitals_postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${DB_USER:-orbitals}
@@ -9,7 +10,7 @@ services:
       POSTGRES_DB: ${DB_NAME:-orbitals_db}
       POSTGRES_INITDB_ARGS: "-E UTF8"
     ports:
-      - "12000:5432"
+      - "51000:5432"
     volumes:
       - ${POSTGRES_DATA_DIR:-./data/postgres}:/var/lib/postgresql/data
     healthcheck:

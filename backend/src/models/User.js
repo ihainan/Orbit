@@ -22,6 +22,24 @@ class User {
     return result.rows[0] || null;
   }
 
+  // Ensure a default user exists (called on app startup)
+  static async ensureDefault() {
+    const existing = await pool.query('SELECT id FROM users LIMIT 1');
+    if (existing.rows.length > 0) return;
+
+    const username = process.env.DEFAULT_USERNAME;
+    const email = process.env.DEFAULT_EMAIL;
+
+    if (!username || !email) {
+      throw new Error(
+        'No user found in database. Set DEFAULT_USERNAME and DEFAULT_EMAIL to create the default user on first run.'
+      );
+    }
+
+    await pool.query('INSERT INTO users (username, email) VALUES ($1, $2)', [username, email]);
+    console.log(`Created default user: ${username} <${email}>`);
+  }
+
   // Update user profile
   static async update(id, username, email) {
     const query = `
