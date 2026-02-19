@@ -1,7 +1,7 @@
 {
-  "name": "orbitals-backend",
+  "name": "orbit-backend",
   "version": "1.0.0",
-  "description": "Backend for Orbitals - A personal timeline application for capturing life's orbital moments",
+  "description": "Backend for Orbit - A personal timeline application for capturing life's orbital moments",
   "main": "src/app.js",
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
     "migrate:create": "node-pg-migrate create --migration-file-language sql --migrations-dir migrations",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["timeline", "personal", "blog", "orbitals", "memories"],
+  "keywords": ["timeline", "personal", "blog", "orbit", "memories"],
   "author": "ihainan",
   "license": "MIT",
   "dependencies": {

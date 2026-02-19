@@ -20,7 +20,7 @@ build_and_push() {
   docker push "$DOCKER_USER/$name:latest"
 }
 
-build_and_push orbitals-backend  "$ROOT/backend"
-build_and_push orbitals-frontend "$ROOT/frontend"
+build_and_push orbit-backend  "$ROOT/backend"
+build_and_push orbit-frontend "$ROOT/frontend"
 
 echo "Done. Tagged as $DATE_TAG and latest."

@@ -1,4 +1,4 @@
-# Orbitals — Claude Notes
+# Orbit — Claude Notes
 
 ## General Rules
 

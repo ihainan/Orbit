@@ -1,20 +1,20 @@
-name: orbitals-dev
+name: orbit-dev
 
 services:
   postgres:
     image: postgres:15-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${DB_USER:-orbitals}
+      POSTGRES_USER: ${DB_USER:-orbit}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME:-orbitals_db}
+      POSTGRES_DB: ${DB_NAME:-orbit_db}
       POSTGRES_INITDB_ARGS: "-E UTF8"
     ports:
       - "51000:5432"
     volumes:
       - ${POSTGRES_DATA_DIR:-./data/postgres}:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-orbitals} -d ${DB_NAME:-orbitals_db}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-orbit} -d ${DB_NAME:-orbit_db}"]
       interval: 10s
       timeout: 5s
       retries: 5

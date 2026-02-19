@@ -72,7 +72,7 @@ function Header({ onSearch, currentSearch, onViewModeChange, viewMode }) {
                 className="text-xl font-bold text-gray-900 cursor-pointer hover:text-blue-600 transition-colors"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
-                Orbitals
+                Orbit
               </h1>
 
               <div className="flex items-center gap-2">

@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="frontend/public/favicon.png" width="80" alt="Orbitals logo" />
+  <img src="frontend/public/favicon.png" width="80" alt="Orbit logo" />
 </p>
 
-# Orbitals
+# Orbit
 
 A minimalist self-hosted timeline for capturing and revisiting life's moments.
 

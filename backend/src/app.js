@@ -38,7 +38,7 @@ app.use('/uploads', express.static(uploadDir));
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Orbitals backend is running' });
+  res.json({ status: 'ok', message: 'Orbit backend is running' });
 });
 
 // API routes
@@ -59,7 +59,7 @@ app.use(errorHandler);
 async function start() {
   await User.ensureDefault();
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Orbitals backend server is running on 0.0.0.0:${PORT}`);
+    console.log(`Orbit backend server is running on 0.0.0.0:${PORT}`);
     console.log(`Health check: http://localhost:${PORT}/health`);
   });
 }
