@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: orbitals_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-orbitals}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-orbitals_db}
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+    volumes:
+      - ${POSTGRES_DATA_DIR:-./data/postgres}:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-orbitals} -d ${DB_NAME:-orbitals_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - orbitals-network
+
+  backend:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    container_name: orbitals_backend
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-orbitals}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME:-orbitals_db}
+      PORT: 37000
+      NODE_ENV: production
+      UPLOAD_DIR: /app/uploads
+      MAX_FILE_SIZE: 52428800
+      AMAP_WEB_SERVICE_KEY: ${AMAP_WEB_SERVICE_KEY}
+      DATABASE_URL: postgresql://${DB_USER:-orbitals}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-orbitals_db}
+    command: sh -c "npm run migrate && npm start"
+    volumes:
+      - ${UPLOADS_DIR:-./data/uploads}:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - orbitals-network
+
+  frontend:
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile
+    container_name: orbitals_frontend
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80"
+    depends_on:
+      - backend
+    networks:
+      - orbitals-network
+
+networks:
+  orbitals-network:
+    driver: bridge
